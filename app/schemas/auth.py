@@ -12,3 +12,18 @@ class UserResponse(BaseModel):
 
     class Config:
         from_attributes = True
+
+class UserLogin(BaseModel):
+    # Email dùng để login
+    email: str
+
+    # Password user nhập khi login
+    password: str
+
+
+class Token(BaseModel):
+    # JWT token server trả về
+    access_token: str
+
+    # Loại token
+    token_type: str
