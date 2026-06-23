@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta, timezone
 
-from jose import jwt
+from jose import jwt, JWTError
 
 
 # Secret key dùng để ký JWT token
@@ -41,3 +41,22 @@ def create_access_token(data: dict):
     )
 
     return encoded_jwt
+
+
+def decode_access_token(token: str ):
+    """
+    Giải mã JWT access token.
+
+    Nếu token hợp lệ, trả về payload (dict).
+    Nếu token không hợp lệ, raise exception.
+    """
+    try: 
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM]
+        )
+
+        return payload
+    except JWTError:
+        return None
