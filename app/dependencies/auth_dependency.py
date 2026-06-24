@@ -1,5 +1,5 @@
 from fastapi import Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from sqlalchemy.orm import Session
 
 from app.core.security import decode_access_token
@@ -9,11 +9,11 @@ from app.models.user import UserModel
 
 # oauth2_scheme sẽ đọc token từ header:
 # Authorization: Bearer <token>
-oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login")
+bearer_scheme = HTTPBearer(bearerFormat="JWT")
 
 
 def get_current_user(
-    token: str = Depends(oauth2_scheme),
+    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
     db: Session = Depends(get_db)
 ):
     """
@@ -28,6 +28,7 @@ def get_current_user(
     """
 
     # Decode token để lấy payload
+    token = credentials.credentials
     payload = decode_access_token(token)
 
     # Nếu token sai hoặc hết hạn
