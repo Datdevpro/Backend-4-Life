@@ -27,6 +27,10 @@ MANIFEST
 .venv
 env/
 venv/
+__pycache__/
+*.pyc
+.env
+todo.db
 ENV/
 env.bak/
 venv.bak/
